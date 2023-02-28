@@ -5,8 +5,8 @@
 #include "GameFinished.h"
 #include "StateMainMenu.h"
 
+#include <unordered_set>
 #include <vector>
-
 
 class StateManager
 {
@@ -26,7 +26,7 @@ public:
 	void update();
 	void render();
 
-	StateType getCurrentState() const { return m_states.empty() ? StateType(-1) : m_states.back()->getType(); }
+	StateType getCurrentState() const;
 	void togglePause();
 private:
 	std::vector<BaseState*> m_states;

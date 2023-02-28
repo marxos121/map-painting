@@ -5,15 +5,17 @@ StateManager::~StateManager()
 	for (auto state : m_states)
 	{
 		delete state;
-		state = nullptr;
 	}
-	m_states.clear();
 }
 
 void StateManager::swapState(StateType newState)
 {
 	auto it = std::find_if(m_states.begin(), m_states.end(),
-		[&newState](BaseState* st) { return st->getType() == newState; });
+		[newState](BaseState* st) { return st->getType() == newState; });
+
+	if (!m_states.empty()) {
+		m_states.back()->deactivate();
+	}
 
 	BaseState* temp = nullptr;
 	if (it == m_states.end())
@@ -34,7 +36,6 @@ void StateManager::swapState(StateType newState)
 		m_states.emplace_back(temp);
 	}
 	m_states.back()->activate();
-
 }
 
 void StateManager::handleInput()
@@ -45,7 +46,7 @@ void StateManager::handleInput()
 
 void StateManager::update()
 {
-	if (!m_states.empty())
+	if (!m_states.empty() && m_states.back()->isActive())
 		m_states.back()->update();
 }
 
@@ -87,4 +88,9 @@ void StateManager::togglePause()
 	{
 		swapState(StateType::Pause);
 	}
+}
+
+StateType StateManager::getCurrentState() const
+{ 
+	return m_states.empty() ? StateType(-1) : m_states.back()->getType(); 
 }

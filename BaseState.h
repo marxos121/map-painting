@@ -27,7 +27,7 @@ public:
 	bool getTranscendent() const { return m_bIsTranscendent; }
 	bool getTransparent() const { return m_bIsTransparent; }
 
-
+	bool isActive() const { return m_isActive; }
 private:
 	StateType m_type;
 	bool m_bIsTranscendent;
