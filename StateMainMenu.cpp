@@ -43,58 +43,24 @@ StateMainMenu::StateMainMenu(Shared* shared)
 
 void StateMainMenu::handleInput()
 {
-	/*
-	sf::Event event;
-	while (m_shared->m_window->getRenderWindow()->pollEvent(event))
-	{
-		if (event.type == sf::Event::MouseButtonPressed)
-		{
-			auto pos = event.mouseButton;
-
-			if (pos.x > m_rectangles[0].getPosition().x - m_rectangles[0].getSize().x / 2
-				&& pos.x < m_rectangles[0].getPosition().x + m_rectangles[0].getSize().x / 2
-				&& pos.y > m_rectangles[0].getPosition().y - m_rectangles[0].getSize().y / 2
-				&& pos.y > m_rectangles[0].getPosition().y + m_rectangles[0].getSize().y / 2)
-			{
-				m_shared->m_stateMgr->swapState(StateType::Play);
-			}
-			else if (pos.x > m_rectangles[1].getPosition().x - m_rectangles[1].getSize().x / 2
-				&& pos.x < m_rectangles[1].getPosition().x + m_rectangles[1].getSize().x / 2
-				&& pos.y > m_rectangles[1].getPosition().y - m_rectangles[1].getSize().y / 2
-				&& pos.y > m_rectangles[1].getPosition().y + m_rectangles[1].getSize().y / 2)
-			{
-				m_shared->m_window->destroy();
-			}
-		}
-	}*/
-
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		auto pos = sf::Mouse::getPosition(*m_shared->m_window->getRenderWindow());
-		sf::FloatRect mouseBounds = { float(pos.x), float(pos.y), 1.f, 1.f };
-		if (mouseBounds.intersects(m_rectangles[0].getGlobalBounds()))
+
+		if (pos.x > m_rectangles[0].getGlobalBounds().left
+			&& pos.x < m_rectangles[0].getGlobalBounds().left + m_rectangles[0].getGlobalBounds().width
+			&& pos.y > m_rectangles[0].getGlobalBounds().top
+			&& pos.y < m_rectangles[0].getGlobalBounds().top + m_rectangles[0].getGlobalBounds().height)
 		{
 			m_shared->m_stateMgr->swapState(StateType::Play);
 		}
-		else if (mouseBounds.intersects(m_rectangles[1].getGlobalBounds()))
+		else if (pos.x > m_rectangles[1].getGlobalBounds().left
+			&& pos.x < m_rectangles[1].getGlobalBounds().left + m_rectangles[0].getGlobalBounds().width
+			&& pos.y > m_rectangles[1].getGlobalBounds().top
+			&& pos.y < m_rectangles[1].getGlobalBounds().top + m_rectangles[0].getGlobalBounds().height)
 		{
 			m_shared->m_window->destroy();
 		}
-		/*
-		if (pos.x > m_rectangles[0].getPosition().x - m_rectangles[0].getSize().x / 2
-			&& pos.x < m_rectangles[0].getPosition().x + m_rectangles[0].getSize().x / 2
-			&& pos.y > m_rectangles[0].getPosition().y - m_rectangles[0].getSize().y / 2
-			&& pos.y > m_rectangles[0].getPosition().y + m_rectangles[0].getSize().y / 2)
-		{
-			m_shared->m_stateMgr->swapState(StateType::Play);
-		}
-		else if (pos.x > m_rectangles[1].getPosition().x - m_rectangles[1].getSize().x / 2
-			&& pos.x < m_rectangles[1].getPosition().x + m_rectangles[1].getSize().x / 2
-			&& pos.y > m_rectangles[1].getPosition().y - m_rectangles[1].getSize().y / 2
-			&& pos.y > m_rectangles[1].getPosition().y + m_rectangles[1].getSize().y / 2)
-		{
-			m_shared->m_window->destroy();
-		}*/
 	}
 }
 
