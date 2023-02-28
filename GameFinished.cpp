@@ -13,8 +13,8 @@ GameFinished::GameFinished(Shared* shared)
 	m_font.loadFromFile("./Graphics/KOMIKAP.ttf");
 
 	m_text.setFont(m_font);
-	m_text.setString("Congratulations! You beat the game!\nPress R to play again or ESC to exit.");
 	m_text.setCharacterSize(32);
+	m_text.setString("Congratulations! You beat the game!\nPress R to play again or ESC to exit.");
 	m_text.setOrigin(m_text.getLocalBounds().left + m_text.getLocalBounds().width / 2,
 		m_text.getLocalBounds().top + m_text.getLocalBounds().height / 2);
 

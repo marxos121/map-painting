@@ -16,6 +16,7 @@ Game::Game()
 	shared.m_texMgr = new TextureManager;
 	shared.m_stateMgr = new StateManager(&shared);
 
+	shared.m_stateMgr->addState<GameFinished>();
 	shared.m_stateMgr->addState<StatePause>();
 	shared.m_stateMgr->addState<StatePlay>();
 	shared.m_stateMgr->addState<StateMainMenu>();

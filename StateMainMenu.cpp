@@ -46,6 +46,7 @@ void StateMainMenu::handleInput()
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		auto pos = sf::Mouse::getPosition(*m_shared->m_window->getRenderWindow());
+		pos = sf::Vector2i(m_shared->m_window->getRenderWindow()->mapPixelToCoords(pos));
 
 		if (pos.x > m_rectangles[0].getGlobalBounds().left
 			&& pos.x < m_rectangles[0].getGlobalBounds().left + m_rectangles[0].getGlobalBounds().width

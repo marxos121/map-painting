@@ -19,13 +19,14 @@ SheetAnimation::SheetAnimation(Shared* shared, const std::string& filename, sf::
 	std::getline(in, frameLength);
 	std::stringstream ss(frameLength);
 	ss >> m_frameLength;
-	//m_frameLength = 0.25f;
+	in.close();
 
 	m_currentFrameElapsedTime = 0.f;
 	m_play = m_loop = false;
 
 	m_sprite.setTexture(*m_sheet);
 	crop();
+
 }
 
 void SheetAnimation::update(float dT)
