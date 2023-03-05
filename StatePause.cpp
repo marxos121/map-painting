@@ -13,9 +13,11 @@ StatePause::StatePause(Shared* shared)
 	text.setString("Game Paused.\nPress P to continue.");
 	text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2,
 		text.getLocalBounds().top + text.getLocalBounds().height / 2);
-	text.setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2,
-		m_shared->m_window->getRenderWindow()->getSize().y / 2);
 
+	auto position = m_shared->m_window->getRenderWindow()->mapPixelToCoords(sf::Vector2i(m_shared->m_window->getRenderWindow()->getSize().x / 2,
+		m_shared->m_window->getRenderWindow()->getSize().y / 2));
+	text.setPosition(position);
+	text.setPosition(position);
 	m_fill.setFillColor(sf::Color(0, 0, 0, 150));
 	m_fill.setSize(sf::Vector2f(shared->m_window->getRenderWindow()->getSize().x,
 		shared->m_window->getRenderWindow()->getSize().y));
