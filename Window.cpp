@@ -29,7 +29,8 @@ void GameWindow::destroy()
 
 void GameWindow::create()
 {
-    m_window.create({ 800, 600, 32 }, "Tiles");
+    auto fullscreen = m_fullscreen ? sf::Style::Fullscreen : sf::Style::Default;
+    m_window.create({ m_x, m_y, 32 }, "Tiles", fullscreen);
 }
 
 sf::RenderWindow* GameWindow::getRenderWindow()

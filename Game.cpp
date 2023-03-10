@@ -12,7 +12,7 @@
 Game::Game()
 	: m_stateMgr(&shared)
 {
-	shared.m_window = new GameWindow("Tiles", 800, 600);
+	shared.m_window = new GameWindow("Tiles", 1200, 900);
 	shared.m_texMgr = new TextureManager;
 	shared.m_stateMgr = new StateManager(&shared);
 
@@ -23,6 +23,12 @@ Game::Game()
 
 	m_backgroundImage.setTexture(*shared.m_texMgr->getTexture("background"));
 	m_backgroundImage.setPosition(0, 0);
+
+	auto windowSize = shared.m_window->getRenderWindow()->getSize();
+	auto textureSize = m_backgroundImage.getTexture()->getSize();
+	float scaleX = float(windowSize.x) / textureSize.x;
+	float scaleY = float(windowSize.y) / textureSize.y;
+	m_backgroundImage.setScale(scaleX, scaleY);
 }
 
 Game::~Game()

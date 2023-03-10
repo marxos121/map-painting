@@ -26,7 +26,7 @@ void HUD::initialise(int blocks)
 
 	m_time.setString("0s");
 	m_time.setOrigin(m_time.getLocalBounds().width, 0);
-	m_time.setPosition(650, 20);
+	m_time.setPosition(m_shared->m_window->getRenderWindow()->getSize().x - 100, 20);
 }
 
 void HUD::update(float dT, int playerSize)
