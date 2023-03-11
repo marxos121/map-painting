@@ -7,7 +7,7 @@ class GameWindow;
 
 enum class StateType
 {
-	Intro, MainMenu, Play, Pause, GameOver, GameComplete
+	Intro, MainMenu, Play, Pause, GameOver, GameComplete, Design
 };
 
 class BaseState

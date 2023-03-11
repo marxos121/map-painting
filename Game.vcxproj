@@ -114,6 +114,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="SheetAnimation.cpp" />
+    <ClCompile Include="StateDesign.cpp" />
     <ClCompile Include="StateMainMenu.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="StatePause.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Shared.h" />
     <ClInclude Include="SheetAnimation.h" />
+    <ClInclude Include="StateDesign.h" />
     <ClInclude Include="StateMainMenu.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="StatePause.h" />
