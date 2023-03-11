@@ -286,7 +286,7 @@ void StatePlay::render()
 			sprite.move({ 0.f, spriteSize + padding });
 		}
 	}
-	//sprite.setTexture(m_shared->m_texMgr->getTexture("block70px"));
+
 	for (int i = 0; i != m_player.size(); ++i)
 	{
 		m_playerSheet.setPosition({ startX + m_player[i].x * (spriteSize + padding) + padding, startY + m_player[i].y * (spriteSize + padding) + padding });
