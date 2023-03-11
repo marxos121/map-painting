@@ -1,13 +1,14 @@
 #pragma once
 #include "BaseState.h"
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <unordered_set>
 
 class StateDesign :
     public BaseState
 {
 public:
-	StateDesign();
+	StateDesign(Shared* shared);
 	~StateDesign() = default;
 
 	void handleInput();
@@ -20,8 +21,12 @@ private:
 	void clear();
 
 	sf::Vector2i m_playerStart;
-	std::unordered_set<int> m_playerBlocks;
+	std::unordered_set<sf::Vector2i> m_playerBlocks;
 	sf::Vector2i m_mapSize;
+
+	sf::Sprite m_playerSprite;
+	sf::Sprite m_unpaintedSprite;
+	sf::Sprite m_wallSprite;
 
 	Shared* m_shared;
 };
