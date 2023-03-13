@@ -18,6 +18,12 @@ StateDesign::StateDesign(Shared* shared)
 
 	m_wallSprite.setTexture(*m_shared->m_texMgr->getTexture("wall70px"));	
 	m_unpaintedSprite.setTexture(*m_shared->m_texMgr->getTexture("san70px"));
+
+
+	for (int i = 0; i != 4; ++i) {
+		m_arrows[i].setTexture(*m_shared->m_texMgr->getTexture("arrow"));
+		m_arrows[i].setRotation(90.f * i);
+	}
 }
 
 void StateDesign::render()
@@ -54,6 +60,9 @@ void StateDesign::render()
 		}
 	}
 
+	for (int i = 0; i != 4; ++i) {
+		m_shared->m_window->getRenderWindow()->draw(m_arrows[i]);
+	}
 }
 
 void StateDesign::save()

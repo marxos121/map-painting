@@ -28,6 +28,8 @@ private:
 	sf::Sprite m_unpaintedSprite;
 	sf::Sprite m_wallSprite;
 
+	sf::Sprite m_arrows[4];
+
 	Shared* m_shared;
 };
 
