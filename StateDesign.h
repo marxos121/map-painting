@@ -23,12 +23,8 @@ private:
 	void clear();
 
 	sf::Vector2i m_playerStart;
-	//std::unordered_set<std::pair<int, int>> m_playerBlocks;
 	sf::Vector2i m_mapSize;
-
-	sf::Sprite m_playerSprite;
-	sf::Sprite m_unpaintedSprite;
-	sf::Sprite m_wallSprite;
+	std::vector<std::vector<sf::Sprite>> m_tiles;	//all tiles
 
 	sf::Font m_font;
 	std::unordered_map<std::string, sf::Text> m_texts;
@@ -36,5 +32,6 @@ private:
 
 	//sf::RectangleShape m_saveBackground;
 	//sf::RectangleShape m_clearBackground;
+	bool m_updateTiles = false;
 };
 
