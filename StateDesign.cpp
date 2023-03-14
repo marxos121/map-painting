@@ -256,4 +256,11 @@ void StateDesign::save()
 
 void StateDesign::clear()
 {
+	m_player.clear();
+
+	for (auto& row : m_tiles) {
+		for (auto& cell : row) {
+			cell.setTexture(*m_shared->m_texMgr->getTexture("san70px"));
+		}
+	}
 }
