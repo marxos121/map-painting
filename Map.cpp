@@ -48,12 +48,12 @@ void Map::loadMap()
 		}
 		else if (tag == "START:")
 		{
-			ss >> m_playerStartingPosition.y >> m_playerStartingPosition.x;
+			ss >> m_playerStartingPosition.x >> m_playerStartingPosition.y;
 		}
 		else if (tag == "TILE:")
 		{
 			int x, y;
-			ss >> y >> x;
+			ss >> x >> y;
 			m_tiles.insert(y * m_mapSize.x + x);
 		}
 	}
@@ -92,12 +92,12 @@ const std::unordered_set<int>& Map::getTiles() const
 	return m_tiles;
 }
 
-const sf::Vector2i Map::getPlayerStartingPosition() const
+sf::Vector2i Map::getPlayerStartingPosition() const
 {
 	return m_playerStartingPosition;
 }
 
-const int Map::getTilesToPaint() const
+int Map::getTilesToPaint() const
 {
 	return m_tilesToPaint;
 }

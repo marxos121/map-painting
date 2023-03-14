@@ -18,7 +18,7 @@ StateDesign::StateDesign(Shared* shared)
 		//(int)m_playerSprite.getTexture()->getSize().y});
 
 	m_tiles.push_back(std::vector<sf::Sprite>(1, sf::Sprite(
-		*m_shared->m_texMgr->getTexture("san70px"))));
+		*m_shared->m_texMgr->getTexture("unpainted"))));
 	m_tiles[0][0].setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2
 		- m_tiles[0][0].getGlobalBounds().width / 2,
 		m_shared->m_window->getRenderWindow()->getSize().y / 2
@@ -140,7 +140,7 @@ void StateDesign::handleInput()
 			return;
 		}
 		if (text.first == "undo") {
-			m_tiles[m_player.back().y][m_player.back().x].setTexture(*m_shared->m_texMgr->getTexture("san70px"));
+			m_tiles[m_player.back().y][m_player.back().x].setTexture(*m_shared->m_texMgr->getTexture("unpainted"));
 			m_player.pop_back();
 		}
 	}
@@ -175,7 +175,7 @@ void StateDesign::update()
 	if (m_mapSize.y > m_tiles.size()) {
 		m_tiles.push_back(std::vector<sf::Sprite>
 			(m_tiles.back().size(),
-				sf::Sprite(*m_shared->m_texMgr->getTexture("san70px"))));
+				sf::Sprite(*m_shared->m_texMgr->getTexture("unpainted"))));
 	}
 	else if (m_mapSize.y < m_tiles.size()) {
 		m_tiles.pop_back();
@@ -183,7 +183,7 @@ void StateDesign::update()
 
 	if(m_mapSize.x > m_tiles.back().size()) {
 		for (auto& row : m_tiles) {
-			row.push_back(sf::Sprite(*m_shared->m_texMgr->getTexture("san70px")));
+			row.push_back(sf::Sprite(*m_shared->m_texMgr->getTexture("unpainted")));
 		}
 	}
 	else if (m_mapSize.x < m_tiles.back().size()) {
@@ -265,7 +265,7 @@ void StateDesign::clear()
 
 	for (auto& row : m_tiles) {
 		for (auto& cell : row) {
-			cell.setTexture(*m_shared->m_texMgr->getTexture("san70px"));
+			cell.setTexture(*m_shared->m_texMgr->getTexture("unpainted"));
 		}
 	}
 }

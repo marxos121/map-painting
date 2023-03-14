@@ -6,7 +6,6 @@
 #include "StateMainMenu.h"
 #include "StateDesign.h"
 
-#include <unordered_set>
 #include <vector>
 
 class StateManager

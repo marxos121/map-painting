@@ -17,8 +17,8 @@ public:
 
 	sf::Vector2i getMapSize() const;
 	const std::unordered_set<int>& getTiles() const;
-	const sf::Vector2i getPlayerStartingPosition() const;
-	const int getTilesToPaint() const;
+	sf::Vector2i getPlayerStartingPosition() const;
+	int getTilesToPaint() const;
 
 private:
 	sf::Vector2i m_mapSize;

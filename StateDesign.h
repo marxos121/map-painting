@@ -3,7 +3,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <unordered_set>
 #include <unordered_map>
 #include <string>
 

@@ -1,8 +1,6 @@
 #pragma once
 #include "Shared.h"
 
-#include <string>
-
 class GameWindow;
 
 enum class StateType

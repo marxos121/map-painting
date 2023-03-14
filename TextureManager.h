@@ -16,7 +16,6 @@ public:
 		}
 		m_textures.emplace(filename, sf::Texture());
 		std::string name = "./Graphics/Textures/" + filename + ".png";
-		int a = 10;
 		m_textures[filename].loadFromFile("./Graphics/Textures/" + filename + ".png");
 
 		return &m_textures[filename];

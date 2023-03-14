@@ -1,10 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/View.hpp>
-#include <SFML/System/Clock.hpp>
-
 #include "Shared.h"
 #include "StateManager.h"
 

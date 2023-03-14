@@ -23,7 +23,6 @@ Game::Game()
 
 	m_backgroundImage.setTexture(*shared.m_texMgr->getTexture("background"));
 	m_backgroundImage.setPosition(0, 0);
-
 	auto windowSize = shared.m_window->getRenderWindow()->getSize();
 	auto textureSize = m_backgroundImage.getTexture()->getSize();
 	float scaleX = float(windowSize.x) / textureSize.x;

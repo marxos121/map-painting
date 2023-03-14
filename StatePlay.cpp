@@ -235,7 +235,7 @@ void StatePlay::update()
 			return;
 		}
 
-		bool bFinishedGame = !m_gameMap->loadNext();
+		//bool bFinishedGame = !m_gameMap->loadNext();
 
 		resetPlayer();
 		restartClock();
@@ -243,7 +243,7 @@ void StatePlay::update()
 		m_playerSheet.setPlay(false);
 		m_playerSheet.setFrame(0);
 
-		if (bFinishedGame)
+		if (!m_gameMap->loadNext())
 		{
 			m_shared->m_stateMgr->swapState(StateType::GameComplete);
 			return;
@@ -275,11 +275,11 @@ void StatePlay::render()
 		{
 			if (m_gameMap->getTiles().find(x + m_gameMap->getMapSize().x * y) != m_gameMap->getTiles().end())
 			{
-				sprite.setTexture(m_shared->m_texMgr->getTexture("wall70px"));
+				sprite.setTexture(m_shared->m_texMgr->getTexture("wall"));
 			}
 			else
 			{
-				sprite.setTexture(m_shared->m_texMgr->getTexture("san70px"));
+				sprite.setTexture(m_shared->m_texMgr->getTexture("unpainted"));
 			}
 
 			m_shared->m_window->getRenderWindow()->draw(sprite);
