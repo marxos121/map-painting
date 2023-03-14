@@ -250,7 +250,7 @@ void StateDesign::save()
 			bool isPath = std::find(m_player.cbegin(), m_player.cend(), sf::Vector2i(x, y)) != m_player.cend();
 
 			if (isPath) {
-				break;
+				continue;
 			}
 			os << "TILE: " << x << " " << y << std::endl;
 		}
