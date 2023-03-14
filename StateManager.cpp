@@ -90,6 +90,17 @@ void StateManager::togglePause()
 	}
 }
 
+bool StateManager::hasState(StateType type) const
+{
+	for (const auto& state : m_states) {
+		if (state->getType() == type) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 StateType StateManager::getCurrentState() const
 { 
 	return m_states.empty() ? StateType(-1) : m_states.back()->getType(); 

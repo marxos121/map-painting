@@ -54,9 +54,13 @@ void GameWindow::handleEvents()
             {
                 toggleFullscreen();
             }
-            if (event.key.code == sf::Keyboard::P)
+            else if (event.key.code == sf::Keyboard::P)
             {
                 m_shared->m_stateMgr->togglePause();
+            }
+            else if (event.key.code == sf::Keyboard::Escape)
+            {
+                m_shared->m_stateMgr->swapState(StateType::MainMenu);
             }
             break;
         }

@@ -25,7 +25,8 @@ public:
 	void handleInput();
 	void update();
 	void render();
-
+	
+	bool hasState(StateType) const;
 	StateType getCurrentState() const;
 	void togglePause();
 private:

@@ -13,6 +13,7 @@ public:
 	void handleInput() override;
 	void update() override { };
 	void render() override;
+	void activate() override;
 
 private:
 	sf::Font m_font;

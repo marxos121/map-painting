@@ -89,3 +89,14 @@ void StateMainMenu::render()
 	m_shared->m_window->getRenderWindow()->draw(m_designText);
 	m_shared->m_window->getRenderWindow()->draw(m_exitText);
 }
+
+void StateMainMenu::activate()
+{
+	BaseState::activate();
+	if (m_shared->m_stateMgr->hasState(StateType::Play)) {
+		m_startGameText.setString("Resume");
+		m_startGameText.setOrigin(m_startGameText.getLocalBounds().width / 2, m_startGameText.getLocalBounds().height / 2);
+		m_startGameText.setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2,
+			m_shared->m_window->getRenderWindow()->getSize().y / 2 - m_startGameText.getLocalBounds().height - 2.f);
+	}
+}
