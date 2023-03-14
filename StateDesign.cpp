@@ -146,10 +146,16 @@ void StateDesign::handleInput()
 			if (pos.x > bounds.left && pos.x < bounds.left + bounds.width
 				&& pos.y > bounds.top && pos.y < bounds.top + bounds.height)
 			{
-				m_tiles[y][x].setTexture(*m_shared->m_texMgr->getTexture("blocksheet"));
-				m_tiles[y][x].setTextureRect({ 0, 0, 50, 50 });
-				y = m_tiles.size() - 1;
-				break;
+				if (m_player.empty() || 
+					(!m_player.empty() && (abs(x - m_player.back().x) + abs(y - m_player.back().y) == 1)
+						&& std::find(m_player.cbegin(), m_player.cend(), sf::Vector2i({ x, y })) == m_player.cend()))
+				{
+					m_player.push_back(sf::Vector2i(x, y));
+					m_tiles[y][x].setTexture(*m_shared->m_texMgr->getTexture("blocksheet"));
+					m_tiles[y][x].setTextureRect({ 0, 0, 50, 50 });
+					y = m_tiles.size() - 1;
+					break;
+				}
 			}
 		}
 	}
@@ -222,16 +228,26 @@ void StateDesign::render()
 
 void StateDesign::save()
 {
+	if (m_player.empty()) {
+		return;
+	}
+
 	std::ofstream os("./Maps/newmap.txt");
 
 	os << "--MAPFILE--\nNEXT: NULL\nSIZE: "
 		<< m_mapSize.x << " " << m_mapSize.y
-		<< "\nSTART: " << m_playerStart.x << " " << m_playerStart.y << std::endl;
-
-	for (int i = 0; i != m_mapSize.x; ++i) 
+		<< "\nSTART: " << m_player.front().x << " " << m_player.front().y << std::endl;
+	int added = 0;
+	for (int x = 0; x != m_mapSize.x; ++x) 
 	{
-		for (int j = 0; j != m_mapSize.y; ++j)
+		for (int y = 0; y != m_mapSize.y; ++y)
 		{
+			bool isPath = std::find(m_player.cbegin(), m_player.cend(), sf::Vector2i(x, y)) != m_player.cend();
+
+			if (isPath) {
+				break;
+			}
+			os << "TILE: " << x << " " << y << std::endl;
 		}
 	}
 
@@ -240,5 +256,4 @@ void StateDesign::save()
 
 void StateDesign::clear()
 {
-	m_playerStart = { -1, -1 };
 }

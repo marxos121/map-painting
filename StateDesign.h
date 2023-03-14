@@ -22,16 +22,14 @@ private:
 	void save();
 	void clear();
 
-	sf::Vector2i m_playerStart;
 	sf::Vector2i m_mapSize;
 	std::vector<std::vector<sf::Sprite>> m_tiles;	//all tiles
+	std::vector<sf::Vector2i> m_player;
 
 	sf::Font m_font;
 	std::unordered_map<std::string, sf::Text> m_texts;
 	std::unordered_map<std::string, sf::RectangleShape> m_fills;
 
-	//sf::RectangleShape m_saveBackground;
-	//sf::RectangleShape m_clearBackground;
 	bool m_updateTiles = false;
 };
 
