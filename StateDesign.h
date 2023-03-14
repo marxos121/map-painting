@@ -1,11 +1,14 @@
 #pragma once
 #include "BaseState.h"
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <unordered_set>
+#include <unordered_map>
+#include <string>
 
 class StateDesign :
-    public BaseState
+	public BaseState
 {
 public:
 	StateDesign(Shared* shared);
@@ -16,20 +19,22 @@ public:
 	void render();
 
 private:
-	void initialise();
 	void save();
 	void clear();
 
 	sf::Vector2i m_playerStart;
-	std::unordered_set<sf::Vector2i> m_playerBlocks;
+	//std::unordered_set<std::pair<int, int>> m_playerBlocks;
 	sf::Vector2i m_mapSize;
 
 	sf::Sprite m_playerSprite;
 	sf::Sprite m_unpaintedSprite;
 	sf::Sprite m_wallSprite;
 
-	sf::Sprite m_arrows[4];
+	sf::Font m_font;
+	std::unordered_map<std::string, sf::Text> m_texts;
+	std::unordered_map<std::string, sf::RectangleShape> m_fills;
 
-	Shared* m_shared;
+	//sf::RectangleShape m_saveBackground;
+	//sf::RectangleShape m_clearBackground;
 };
 
