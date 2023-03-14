@@ -31,6 +31,7 @@ StateDesign::StateDesign(Shared* shared)
 	m_texts["height"].setString("Height:");
 	m_texts["width+"].setString("+");
 	m_texts["width-"].setString("-");
+	m_texts["undo"].setString("Undo");
 
 	m_texts["height+"] = m_texts["width+"];
 	m_texts["height-"] = m_texts["width-"];
@@ -53,10 +54,8 @@ StateDesign::StateDesign(Shared* shared)
 
 
 	m_texts["save"].setPosition(70.f, 200.f);
-	m_texts["clear"].setPosition(70.f, 250.f);
-
-	
-
+	m_texts["undo"].setPosition(70.f, 250.f);
+	m_texts["clear"].setPosition(70.f, 300.f);
 
 	m_fills["settings"].setPosition(m_texts["height"].getGlobalBounds().left - 5,
 		m_texts["width"].getGlobalBounds().top - 10);
@@ -66,6 +65,8 @@ StateDesign::StateDesign(Shared* shared)
 	m_fills["save"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["save"].getGlobalBounds().top - 5);
 	m_fills["save"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["save"].getGlobalBounds().height + 10));
 
+	m_fills["undo"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["undo"].getGlobalBounds().top - 5);
+	m_fills["undo"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["undo"].getGlobalBounds().height + 10));
 
 	m_fills["clear"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["clear"].getGlobalBounds().top - 5);
 	m_fills["clear"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["clear"].getGlobalBounds().height + 10));
@@ -137,6 +138,10 @@ void StateDesign::handleInput()
 				m_mapSize.y = 1;
 			m_updateTiles = true;
 			return;
+		}
+		if (text.first == "undo") {
+			m_tiles[m_player.back().y][m_player.back().x].setTexture(*m_shared->m_texMgr->getTexture("san70px"));
+			m_player.pop_back();
 		}
 	}
 
