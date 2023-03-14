@@ -4,6 +4,7 @@
 #include "StatePause.h"
 #include "GameFinished.h"
 #include "StateMainMenu.h"
+#include "StateDesign.h"
 
 #include <unordered_set>
 #include <vector>

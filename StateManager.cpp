@@ -25,8 +25,8 @@ void StateManager::swapState(StateType newState)
 		case StateType::Play: addState<StatePlay>(); break;
 		case StateType::Pause: addState<StatePause>(); break;
 		case StateType::GameComplete: addState<GameFinished>(); break;
-		//case StateType::Intro: addState<StateIntro>(); break;
 		case StateType::MainMenu: addState<StateMainMenu>(); break;
+		case StateType::Design: addState<StateDesign>(); break;
 		}
 	}
 	else

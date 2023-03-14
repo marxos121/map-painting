@@ -17,6 +17,7 @@ public:
 private:
 	sf::Font m_font;
 	sf::Text m_startGameText;
+	sf::Text m_designText;
 	sf::Text m_exitText;
-	sf::RectangleShape m_rectangles[2];
+	sf::RectangleShape m_rectangles[3];
 };
