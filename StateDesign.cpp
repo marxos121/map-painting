@@ -9,14 +9,11 @@
 
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 StateDesign::StateDesign(Shared* shared)
 	: BaseState(StateType::Design, shared), m_mapSize({ 1, 1})
 {
-	//m_playerSprite.setTextureRect({0, 0,
-		//(int)m_playerSprite.getTexture()->getSize().y,
-		//(int)m_playerSprite.getTexture()->getSize().y});
-
 	m_tiles.push_back(std::vector<sf::Sprite>(1, sf::Sprite(
 		*m_shared->m_texMgr->getTexture("unpainted"))));
 	m_tiles[0][0].setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2
@@ -236,8 +233,47 @@ void StateDesign::save()
 	if (m_player.empty()) {
 		return;
 	}
+	std::filesystem::path maps = std::filesystem::current_path() / "Maps";
+	std::string newMap = "";
 
-	std::ofstream os("./Maps/newmap.txt");
+	int i = 1;
+	while (std::filesystem::exists(maps / ("map" + std::to_string(i) + ".txt"))) {
+		++i;
+	}
+
+	newMap = "map" + std::to_string(i) + ".txt";
+
+	//If there are > 1 map, append the new map after the latest one
+	if (i > 1) {
+		std::string prevMap = "map" + std::to_string(i - 1) + ".txt";
+		std::ifstream is_prevMap("./Maps/" + prevMap);
+		std::ofstream os_prevMap("./Maps/newmap.txt");
+
+		std::string line;
+		while (std::getline(is_prevMap, line)) {
+			std::stringstream ss(line);
+			std::string tag;
+			ss >> tag;
+
+			if (tag == "NEXT:") {
+				ss >> tag;
+				if (tag != "NULL") {
+					break;
+				}
+
+				line = "NEXT: " + newMap;
+			}
+
+			os_prevMap << line + '\n';
+		}
+
+		is_prevMap.close();
+		os_prevMap.close();
+
+		std::filesystem::rename(maps / "newmap.txt", maps / prevMap);
+	}
+
+	std::ofstream os("./Maps/" + newMap);
 
 	os << "--MAPFILE--\nNEXT: NULL\nSIZE: "
 		<< m_mapSize.x << " " << m_mapSize.y
