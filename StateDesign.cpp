@@ -5,10 +5,8 @@
 #include "Window.h"
 
 #include <SFML/Window/Mouse.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 
 #include <fstream>
-#include <iostream>
 #include <filesystem>
 
 StateDesign::StateDesign(Shared* shared)
@@ -23,57 +21,90 @@ StateDesign::StateDesign(Shared* shared)
 		- m_tiles[0][0].getGlobalBounds().height / 2);
 
 	m_font.loadFromFile("./Graphics/KOMIKAP.TTF");
-	m_texts["clear"].setString("Clear");
-	m_texts["save"].setString("Save");
-	m_texts["width"].setString("Width:");
-	m_texts["height"].setString("Height:");
-	m_texts["width+"].setString("+");
-	m_texts["width-"].setString("-");
-	m_texts["undo"].setString("Undo");
+	m_buttons["clear"].text.setString("Clear");
+	m_buttons["save"].text.setString("Save");
+	m_buttons["width"].text.setString("Width:");
+	m_buttons["height"].text.setString("Height:");
+	m_buttons["width+"].text.setString("+");
+	m_buttons["width-"].text.setString("-");
+	m_buttons["undo"].text.setString("Undo");
 
-	m_texts["height+"] = m_texts["width+"];
-	m_texts["height-"] = m_texts["width-"];
+	m_buttons["height+"] = m_buttons["width+"];
+	m_buttons["height-"] = m_buttons["width-"];
 
-	for (auto& text : m_texts) {
-		text.second.setFont(m_font);
-		text.second.setCharacterSize(32);
-		text.second.setFillColor(sf::Color::White);
-		auto rect = text.second.getLocalBounds();
-		text.second.setOrigin(rect.left + rect.width / 2, rect.top + rect.height / 2);
+	for (auto& button : m_buttons) {
+		button.second.text.setFont(m_font);
+		button.second.text.setCharacterSize(32);
+		button.second.text.setFillColor(sf::Color::White);
+		auto rect = button.second.text.getLocalBounds();
+		button.second.text.setOrigin(rect.left + rect.width / 2, rect.top + rect.height / 2);
 	}
 
-	m_texts["width"].setPosition(70.f, 40.f);
-	m_texts["width-"].setPosition(50.f, 70.f);
-	m_texts["width+"].setPosition(90.f, 70.f);
+	m_buttons["width"].text.setPosition(70.f, 40.f);
+	m_buttons["width-"].text.setPosition(50.f, 75.f);
+	m_buttons["width+"].text.setPosition(90.f, 75.f);
 
-	m_texts["height"].setPosition(70.f, 120.f);
-	m_texts["height-"].setPosition(50.f, 150.f);
-	m_texts["height+"].setPosition(90.f, 150.f);
+	m_buttons["height"].text.setPosition(70.f, 120.f);
+	m_buttons["height-"].text.setPosition(50.f, 155.f);
+	m_buttons["height+"].text.setPosition(90.f, 155.f);
 
 
-	m_texts["save"].setPosition(70.f, 200.f);
-	m_texts["undo"].setPosition(70.f, 250.f);
-	m_texts["clear"].setPosition(70.f, 300.f);
+	m_buttons["save"].text.setPosition(70.f, 200.f);
+	m_buttons["undo"].text.setPosition(70.f, 250.f);
+	m_buttons["clear"].text.setPosition(70.f, 300.f);
 
-	m_fills["settings"].setPosition(m_texts["height"].getGlobalBounds().left - 5,
-		m_texts["width"].getGlobalBounds().top - 10);
-	m_fills["settings"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, 
-		m_texts["height+"].getGlobalBounds().top + 2*m_texts["height+"].getGlobalBounds().height - m_texts["width"].getGlobalBounds().top));
+	m_sizingBackground.setPosition(m_buttons["height"].text.getGlobalBounds().left - 5,
+		m_buttons["width"].text.getGlobalBounds().top - 10);
+	m_sizingBackground.setSize(sf::Vector2f(m_buttons["height"].text.getGlobalBounds().width + 10, 
+		m_buttons["height+"].text.getGlobalBounds().top + 2*m_buttons["height+"].text.getGlobalBounds().height - m_buttons["width"].text.getGlobalBounds().top));
+	m_sizingBackground.setFillColor(sf::Color(0, 0, 0, 150));
+	m_sizingBackground.setOutlineColor(sf::Color::White);
+	m_sizingBackground.setOutlineThickness(2);
 
-	m_fills["save"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["save"].getGlobalBounds().top - 5);
-	m_fills["save"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["save"].getGlobalBounds().height + 10));
+	sf::Vector2f buttonSize = { m_buttons["width+"].text.getLocalBounds().width + 4,  m_buttons["width+"].text.getLocalBounds().height + 4 };
+	m_buttons["width+"].background.setSize(buttonSize);
+	m_buttons["width-"].background.setSize(buttonSize);
+	m_buttons["height+"].background.setSize(buttonSize);
+	m_buttons["height-"].background.setSize(buttonSize);
 
-	m_fills["undo"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["undo"].getGlobalBounds().top - 5);
-	m_fills["undo"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["undo"].getGlobalBounds().height + 10));
+	m_buttons["save"].background.setPosition(m_buttons["height"].text.getGlobalBounds().left - 5, m_buttons["save"].text.getGlobalBounds().top - 5);
+	m_buttons["save"].background.setSize(sf::Vector2f(m_buttons["height"].text.getGlobalBounds().width + 10, m_buttons["save"].text.getGlobalBounds().height + 10));
 
-	m_fills["clear"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["clear"].getGlobalBounds().top - 5);
-	m_fills["clear"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["clear"].getGlobalBounds().height + 10));
+	m_buttons["undo"].background.setPosition(m_buttons["height"].text.getGlobalBounds().left - 5, m_buttons["undo"].text.getGlobalBounds().top - 5);
+	m_buttons["undo"].background.setSize(sf::Vector2f(m_buttons["height"].text.getGlobalBounds().width + 10, m_buttons["undo"].text.getGlobalBounds().height + 10));
 
-	m_fills["width+"].setPosition(m_texts["width+"].getGlobalBounds().left - 2, m_texts["width+"].getGlobalBounds().top - 2);
-	m_fills["height+"].setPosition(m_texts["height+"].getGlobalBounds().left - 2, m_texts["height+"].getGlobalBounds().top - 2);
+	m_buttons["clear"].background.setPosition(m_buttons["height"].text.getGlobalBounds().left - 5, m_buttons["clear"].text.getGlobalBounds().top - 5);
+	m_buttons["clear"].background.setSize(sf::Vector2f(m_buttons["height"].text.getGlobalBounds().width + 10, m_buttons["clear"].text.getGlobalBounds().height + 10));
 
-	for (auto& fill : m_fills) {
-		fill.second.setFillColor(sf::Color(0, 0, 0, 150));
+	m_buttons["width+"].background.setOrigin(m_buttons["width+"].background.getLocalBounds().left +
+		m_buttons["width+"].background.getLocalBounds().width / 2, 
+		m_buttons["width+"].background.getLocalBounds().top +
+		m_buttons["width+"].background.getLocalBounds().height / 2);
+	m_buttons["width+"].background.setPosition(m_buttons["width+"].text.getPosition());
+
+	m_buttons["width-"].background.setOrigin(m_buttons["width-"].background.getLocalBounds().left +
+		m_buttons["width-"].background.getLocalBounds().width / 2,
+		m_buttons["width-"].background.getLocalBounds().top +
+		m_buttons["width-"].background.getLocalBounds().height / 2);
+	m_buttons["width-"].background.setPosition(m_buttons["width-"].text.getPosition());
+
+	m_buttons["height+"].background.setOrigin(m_buttons["height+"].background.getLocalBounds().left +
+		m_buttons["height+"].background.getLocalBounds().width / 2,
+		m_buttons["height+"].background.getLocalBounds().top +
+		m_buttons["height+"].background.getLocalBounds().height / 2);
+	m_buttons["height+"].background.setPosition(m_buttons["height+"].text.getPosition());
+
+	m_buttons["height-"].background.setOrigin(m_buttons["height-"].background.getLocalBounds().left +
+		m_buttons["height-"].background.getLocalBounds().width / 2,
+		m_buttons["height-"].background.getLocalBounds().top +
+		m_buttons["height-"].background.getLocalBounds().height / 2);
+	m_buttons["height-"].background.setPosition(m_buttons["height-"].text.getPosition());
+
+
+	for (auto& button : m_buttons) {
+		button.second.background.setFillColor(sf::Color::Color(0, 0, 0, 150));
+		button.second.background.setOutlineColor(sf::Color::White);
+		button.second.background.setOutlineThickness(2);
 	}
 
 }
@@ -95,52 +126,52 @@ void StateDesign::handleInput()
 	auto pos = sf::Mouse::getPosition(*m_shared->m_window);
 	pos = sf::Vector2i(m_shared->m_window->mapPixelToCoords(pos));
 
-	for (auto& text : m_texts) {
-		if (!(pos.x > text.second.getGlobalBounds().left
-			&& pos.x < text.second.getGlobalBounds().left + text.second.getGlobalBounds().width
-			&& pos.y > text.second.getGlobalBounds().top
-			&& pos.y < text.second.getGlobalBounds().top + text.second.getGlobalBounds().height))
+	for (auto& button : m_buttons) {
+		if (!(pos.x > button.second.background.getGlobalBounds().left
+			&& pos.x < button.second.background.getGlobalBounds().left + button.second.background.getGlobalBounds().width
+			&& pos.y > button.second.background.getGlobalBounds().top
+			&& pos.y < button.second.background.getGlobalBounds().top + button.second.background.getGlobalBounds().height))
 		{
 			continue;
 		}
 
-		if (text.first == "clear") {
+		if (button.first == "clear") {
 			clear();
 			return;
 		}
-	    if (text.first == "save") {
+	    if (button.first == "save") {
 			save();
 			return;
 		}
-		if (text.first == "width+") {
+		if (button.first == "width+") {
 			m_mapSize.x++;
 			if (m_mapSize.x > 8)
 				m_mapSize.x = 8;
 			m_updateTiles = true;
 			return;
 		}
-		if (text.first == "width-") {
+		if (button.first == "width-") {
 			m_mapSize.x--;
 			if (m_mapSize.x < 1)
 				m_mapSize.x = 1;
 			m_updateTiles = true;
 			return;
 		}
-		if (text.first == "height+") {
+		if (button.first == "height+") {
 			m_mapSize.y++;
 			if (m_mapSize.y > 8)
 				m_mapSize.y = 8;
 			m_updateTiles = true;
 			return;
 		}
-		if (text.first == "height-") {
+		if (button.first == "height-") {
 			m_mapSize.y--;
 			if(m_mapSize.y < 1)
 				m_mapSize.y = 1;
 			m_updateTiles = true;
 			return;
 		}
-		if (text.first == "undo" && !m_player.empty()) {
+		if (button.first == "undo" && !m_player.empty()) {
 			m_tiles[m_player.back().y][m_player.back().x].setTexture(*m_shared->m_texMgr->getTexture("unpainted"));
 			m_player.pop_back();
 			return;
@@ -206,12 +237,11 @@ void StateDesign::render()
 		}
 	}
 
-	for (auto& fill : m_fills) {
-		m_shared->m_window->draw(fill.second);
-	}
+	m_shared->m_window->draw(m_sizingBackground);
 
-	for (auto& text : m_texts) {
-		m_shared->m_window->draw(text.second);
+	for (auto& button : m_buttons) {
+		m_shared->m_window->draw(button.second.background);
+		m_shared->m_window->draw(button.second.text);
 	}
 }
 

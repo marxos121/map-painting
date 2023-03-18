@@ -6,6 +6,12 @@
 #include <unordered_map>
 #include <string>
 
+struct Button
+{
+	sf::RectangleShape background; 
+	sf::Text text;
+};
+
 class StateDesign :
 	public BaseState
 {
@@ -27,8 +33,9 @@ private:
 	std::vector<sf::Vector2i> m_player;
 
 	sf::Font m_font;
-	std::unordered_map<std::string, sf::Text> m_texts;
-	std::unordered_map<std::string, sf::RectangleShape> m_fills;
+	std::unordered_map<std::string,  Button> m_buttons;
+	sf::RectangleShape m_sizingBackground;
+
 
 	bool m_updateTiles = false;
 };

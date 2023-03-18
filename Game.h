@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Shared.h"
-#include "StateManager.h"
 
 class Game
 {
