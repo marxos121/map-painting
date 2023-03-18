@@ -2,6 +2,8 @@
 
 #include "Shared.h"
 
+#include <SFML/Graphics/Sprite.hpp>
+
 class Game
 {
 public:

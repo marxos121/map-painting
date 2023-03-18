@@ -8,7 +8,34 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
+#include <fstream>
+
+
 class GameFinished;
+
+StatePlay::StatePlay(Shared* shared)
+	: BaseState(StateType::Play, shared), m_hud(shared), m_nextStep((Step)-1),
+	m_playerSheet(m_shared, "blocksheet", { 100.f, 100.f })
+{
+	std::string mapToLoad = "map1.txt";
+	std::ifstream is("state.txt");
+	if (is.is_open()) {
+		is >> mapToLoad;
+		is.close();
+	}
+	m_gameMap = new Map(mapToLoad);
+	m_shared->m_gameMap = m_gameMap;
+
+	resetPlayer();
+
+}
+
+StatePlay::~StatePlay()
+{
+	delete m_gameMap;
+	m_gameMap = nullptr;
+}
+
 
 void StatePlay::resetPlayer()
 {
@@ -37,23 +64,6 @@ void StatePlay::resetTimer()
 	m_elapsedTotal = sf::seconds(0);
 }
 
-StatePlay::~StatePlay()
-{
-	delete m_gameMap;
-	m_gameMap = nullptr;
-}
-
-StatePlay::StatePlay(Shared* shared)
-	: BaseState(StateType::Play, shared), m_hud(shared), m_nextStep((Step)-1),
-	m_playerSheet(m_shared, "blocksheet", { 100.f, 100.f })
-{
-	m_gameMap = new Map;
-	m_gameMap->loadMap();
-	m_shared->m_gameMap = m_gameMap;
-
-	resetPlayer();
-
-}
 
 void StatePlay::handleInput()
 {
@@ -236,18 +246,19 @@ void StatePlay::update()
 		}
 
 		bool bFinishedGame = !m_gameMap->loadNext();
+		if (bFinishedGame)
+		{
+			m_shared->m_stateMgr->swapState(StateType::GameComplete);
+			return;
+		}
 
 		resetPlayer();
 		restartClock();
 		resetTimer();
 		m_playerSheet.setPlay(false);
 		m_playerSheet.setFrame(0);
+		save();
 
-		if (bFinishedGame)
-		{
-			m_shared->m_stateMgr->swapState(StateType::GameComplete);
-			return;
-		}
 	}
 
 	m_elapsed = sf::seconds(0);
@@ -305,4 +316,11 @@ void StatePlay::activate()
 void StatePlay::onResize()
 {
 	m_hud.onResize();
+}
+
+void StatePlay::save()
+{
+	std::ofstream os("state.txt");
+	os << m_shared->m_gameMap->getCurrentMap();
+	os.close();
 }

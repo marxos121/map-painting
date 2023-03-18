@@ -46,4 +46,6 @@ private:
 	bool m_reset = false;
 
 	HUD m_hud;
+
+	void save();
 };

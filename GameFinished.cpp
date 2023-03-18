@@ -6,6 +6,7 @@
 #include "StateManager.h"
 
 #include <SFML/Window/Keyboard.hpp>
+#include <fstream>
 
 GameFinished::GameFinished(Shared* shared)
 	: BaseState(StateType::GameComplete, shared), m_playAgain(false)
@@ -21,15 +22,15 @@ GameFinished::GameFinished(Shared* shared)
 	auto position = m_shared->m_window->mapPixelToCoords(sf::Vector2i(m_shared->m_window->getSize().x / 2,
 		m_shared->m_window->getSize().y / 2));
 	m_text.setPosition(position);
+
+	m_shared->m_gameMap->m_nextMap = "map1.txt";
+	std::ofstream os("state.txt");
+	os << "map1.txt";
+	os.close();
 }
 
 void GameFinished::handleInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-	{
-		m_shared->m_window->close();
-	}
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
 		m_playAgain = true;
@@ -37,10 +38,9 @@ void GameFinished::handleInput()
 }
 
 void GameFinished::update()
-{
+{ 
 	if (m_playAgain)
 	{
-		m_shared->m_gameMap->m_nextMap = "map1.txt";
 		m_shared->m_gameMap->loadNext();
 		m_shared->m_stateMgr->swapState(StateType::Play);
 		auto play = dynamic_cast<StatePlay*>(m_shared->m_stateMgr->m_states.back());

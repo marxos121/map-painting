@@ -12,20 +12,14 @@
 Game::Game()
 {
 	m_shared.m_window = new GameWindow(sf::VideoMode(1200, 900), "Tiles", sf::Style::Fullscreen);
-	m_shared.m_texMgr = new TextureManager;
-	m_shared.m_stateMgr = new StateManager(&m_shared);
-
-	m_shared.m_stateMgr->addState<StateMainMenu>();
-
 	m_shared.m_window->setKeyRepeatEnabled(false);
 
+	m_shared.m_texMgr = new TextureManager;
 	m_backgroundImage.setTexture(*m_shared.m_texMgr->getTexture("background"));
 	m_backgroundImage.setPosition(0, 0);
-	auto windowSize = m_shared.m_window->getSize();
-	auto textureSize = m_backgroundImage.getTexture()->getSize();
-	float scaleX = float(windowSize.x) / textureSize.x;
-	float scaleY = float(windowSize.y) / textureSize.y;
-	m_backgroundImage.setScale(scaleX, scaleY);
+
+	m_shared.m_stateMgr = new StateManager(&m_shared);
+	m_shared.m_stateMgr->addState<StateMainMenu>();
 }
 
 Game::~Game()

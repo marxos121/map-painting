@@ -9,12 +9,14 @@
 
 class Map
 {
-	friend void GameFinished::update();
+	friend GameFinished::GameFinished(Shared*);
 public:
+	Map(const std::string& nextMap = "map1.txt");
 	void loadMap();
 	void purgeMap();
 	bool loadNext();
 
+	std::string getCurrentMap() const;
 	sf::Vector2i getMapSize() const;
 	const std::unordered_set<int>& getTiles() const;
 	sf::Vector2i getPlayerStartingPosition() const;
@@ -27,7 +29,7 @@ private:
 
 	sf::Vector2i m_playerStartingPosition;
 
-
-	std::string m_nextMap = "map1.txt";
+	std::string m_currentMap;;
+	std::string m_nextMap;
 };
 

@@ -5,6 +5,12 @@
 #include <iostream>
 #include <sstream>
 
+Map::Map(const std::string& nextMap)
+	: m_nextMap(nextMap), m_currentMap(nextMap)
+{
+	loadMap();
+}
+
 void Map::loadMap()
 {
 	std::ifstream mapfile("./Maps/" + m_nextMap);
@@ -25,6 +31,7 @@ void Map::loadMap()
 			if (line == "--MAPFILE--")
 			{
 				bValid = true;
+				m_currentMap = m_nextMap;
 				continue;
 			}
 			else
@@ -80,6 +87,11 @@ bool Map::loadNext()
 	}
 
 	return false;
+}
+
+std::string Map::getCurrentMap() const
+{
+	return m_currentMap;
 }
 
 sf::Vector2i Map::getMapSize() const
