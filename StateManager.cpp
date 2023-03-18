@@ -78,6 +78,14 @@ void StateManager::render()
 	}
 }
 
+void StateManager::onResize()
+{
+	for (auto state : m_states)
+	{
+		state->onResize();
+	}
+}
+
 void StateManager::togglePause()
 {
 	if (m_states.back()->getType() == StateType::Pause)

@@ -14,6 +14,8 @@ public:
 	
 	void update(float dT, int playerSize);
 	void draw();
+	void onResize();
+
 private:
 	sf::Font m_font;
 	sf::Text m_time;

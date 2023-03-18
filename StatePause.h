@@ -14,6 +14,7 @@ public:
 	void handleInput() override;
 	void update() override;
 	void render() override;
+	void onResize() override;
 
 private:
 	sf::RectangleShape m_fill;

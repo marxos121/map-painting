@@ -25,6 +25,7 @@ public:
 	void update() override;
 	void render() override;
 	void activate() override;
+	void onResize() override;
 
 	void resetPlayer();
 	void updateTime();

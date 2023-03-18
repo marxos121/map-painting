@@ -17,7 +17,6 @@ public:
 
 private:
 	sf::Sprite m_backgroundImage;
-	Shared shared;
-	StateManager m_stateMgr;
+	Shared m_shared;
 };
 

@@ -8,6 +8,11 @@
 StateMainMenu::StateMainMenu(Shared* shared)
 	: BaseState(StateType::MainMenu, shared)
 {
+	for (auto& rect : m_rectangles)
+	{
+		rect.setFillColor(sf::Color(3, 88, 14));
+	}
+
 	m_font.loadFromFile("./Graphics/KOMIKAP.ttf");
 	m_startGameText.setFont(m_font);
 	m_designText.setFont(m_font);
@@ -17,36 +22,27 @@ StateMainMenu::StateMainMenu(Shared* shared)
 	m_designText.setString("Design Level");
 	m_exitText.setString("Exit");
 
-	m_startGameText.setCharacterSize(15); 
-	m_designText.setCharacterSize(15);
-	m_exitText.setCharacterSize(15);
-
-	auto windowSize = m_shared->m_window->getRenderWindow()->getSize();
-	auto startBounds = m_startGameText.getLocalBounds();
-	m_startGameText.setOrigin(startBounds.left + startBounds.width / 2, startBounds.top + startBounds.height / 2);
-	m_startGameText.setPosition(windowSize.x / 2, windowSize.y / 2 - startBounds.height);
+	m_startGameText.setCharacterSize(40);
+	m_designText.setCharacterSize(40);
+	m_exitText.setCharacterSize(40);
 
 	auto designBounds = m_designText.getLocalBounds();
-	m_designText.setOrigin(designBounds.left + designBounds.width / 2, designBounds.top + designBounds.height / 2);
-	m_designText.setPosition(windowSize.x / 2, windowSize.y / 2 + startBounds.height);
-
 	auto exitBounds = m_exitText.getLocalBounds();
+	auto startBounds = m_startGameText.getLocalBounds();
+	m_designText.setOrigin(designBounds.left + designBounds.width / 2, designBounds.top + designBounds.height / 2);
 	m_exitText.setOrigin(exitBounds.left + exitBounds.width / 2, exitBounds.top + exitBounds.height / 2);
-	m_exitText.setPosition(windowSize.x / 2, windowSize.y / 2 + 3 * startBounds.height);
-
+	m_startGameText.setOrigin(startBounds.left + startBounds.width / 2, startBounds.top + startBounds.height / 2);
 	float padding = 2.f;
 
 	for (auto& rect : m_rectangles)
 	{
-		rect.setFillColor(sf::Color::Magenta);
+		rect.setFillColor(sf::Color(3, 88, 14));
 		rect.setSize({ designBounds.width + padding * 10, startBounds.height + padding });
 		rect.setOrigin(rect.getLocalBounds().left + rect.getLocalBounds().width / 2,
 			rect.getLocalBounds().top + rect.getLocalBounds().height / 2);
 	}
 
-	m_rectangles[0].setPosition(m_startGameText.getPosition());
-	m_rectangles[1].setPosition(m_designText.getPosition());
-	m_rectangles[2].setPosition(m_exitText.getPosition());
+	onResize();
 }
 
 void StateMainMenu::handleInput()
@@ -95,8 +91,21 @@ void StateMainMenu::activate()
 	BaseState::activate();
 	if (m_shared->m_stateMgr->hasState(StateType::Play)) {
 		m_startGameText.setString("Resume");
-		m_startGameText.setOrigin(m_startGameText.getLocalBounds().width / 2, m_startGameText.getLocalBounds().height / 2);
-		m_startGameText.setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2,
-			m_shared->m_window->getRenderWindow()->getSize().y / 2 - m_startGameText.getLocalBounds().height - 2.f);
+		auto startBounds = m_startGameText.getLocalBounds();
+		m_startGameText.setOrigin(startBounds.left + startBounds.width / 2, startBounds.top + startBounds.height / 2);
 	}
+}
+
+void StateMainMenu::onResize()
+{
+	auto windowSize = m_shared->m_window->getRenderWindow()->getSize();
+	auto startBounds = m_startGameText.getLocalBounds();
+
+	m_startGameText.setPosition(windowSize.x / 2, windowSize.y / 2 - startBounds.height);
+	m_designText.setPosition(windowSize.x / 2, windowSize.y / 2 + startBounds.height);
+	m_exitText.setPosition(windowSize.x / 2, windowSize.y / 2 + 3 * startBounds.height);	
+
+	m_rectangles[0].setPosition(m_startGameText.getPosition());
+	m_rectangles[1].setPosition(m_designText.getPosition());
+	m_rectangles[2].setPosition(m_exitText.getPosition());
 }

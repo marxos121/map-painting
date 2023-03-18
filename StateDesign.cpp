@@ -16,6 +16,7 @@ StateDesign::StateDesign(Shared* shared)
 {
 	m_tiles.push_back(std::vector<sf::Sprite>(1, sf::Sprite(
 		*m_shared->m_texMgr->getTexture("unpainted"))));
+	onResize();
 	m_tiles[0][0].setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2
 		- m_tiles[0][0].getGlobalBounds().width / 2,
 		m_shared->m_window->getRenderWindow()->getSize().y / 2
@@ -67,11 +68,14 @@ StateDesign::StateDesign(Shared* shared)
 
 	m_fills["clear"].setPosition(m_texts["height"].getGlobalBounds().left - 5, m_texts["clear"].getGlobalBounds().top - 5);
 	m_fills["clear"].setSize(sf::Vector2f(m_texts["height"].getGlobalBounds().width + 10, m_texts["clear"].getGlobalBounds().height + 10));
+
+	m_fills["width+"].setPosition(m_texts["width+"].getGlobalBounds().left - 2, m_texts["width+"].getGlobalBounds().top - 2);
+	m_fills["height+"].setPosition(m_texts["height+"].getGlobalBounds().left - 2, m_texts["height+"].getGlobalBounds().top - 2);
+
 	for (auto& fill : m_fills) {
 		fill.second.setFillColor(sf::Color(0, 0, 0, 150));
 	}
 
-	m_isActive = true;
 }
 
 void StateDesign::handleInput()
@@ -110,8 +114,8 @@ void StateDesign::handleInput()
 		}
 		if (text.first == "width+") {
 			m_mapSize.x++;
-			if (m_mapSize.x > 10)
-				m_mapSize.x = 10;
+			if (m_mapSize.x > 8)
+				m_mapSize.x = 8;
 			m_updateTiles = true;
 			return;
 		}
@@ -124,8 +128,8 @@ void StateDesign::handleInput()
 		}
 		if (text.first == "height+") {
 			m_mapSize.y++;
-			if (m_mapSize.y > 10)
-				m_mapSize.y = 10;
+			if (m_mapSize.y > 8)
+				m_mapSize.y = 8;
 			m_updateTiles = true;
 			return;
 		}
@@ -136,9 +140,10 @@ void StateDesign::handleInput()
 			m_updateTiles = true;
 			return;
 		}
-		if (text.first == "undo") {
+		if (text.first == "undo" && !m_player.empty()) {
 			m_tiles[m_player.back().y][m_player.back().x].setTexture(*m_shared->m_texMgr->getTexture("unpainted"));
 			m_player.pop_back();
+			return;
 		}
 	}
 
@@ -154,9 +159,8 @@ void StateDesign::handleInput()
 				{
 					m_player.push_back(sf::Vector2i(x, y));
 					m_tiles[y][x].setTexture(*m_shared->m_texMgr->getTexture("blocksheet"));
-					m_tiles[y][x].setTextureRect({ 0, 0, 50, 50 });
-					y = m_tiles.size() - 1;
-					break;
+					m_tiles[y][x].setTextureRect({ 0, 0, 100, 100 });
+					return;
 				}
 			}
 		}
@@ -189,25 +193,7 @@ void StateDesign::update()
 		}
 	}
 
-	//Set new positions
-	static const float spriteSize = 50.f;
-	static const float padding = 2.f;
-
-	float startX = m_shared->m_window->getRenderWindow()->getDefaultView().getCenter().x -
-		m_mapSize.x * (spriteSize + padding) / 2;
-	float posY = m_shared->m_window->getRenderWindow()->getDefaultView().getCenter().y -
-		m_mapSize.y * (spriteSize + padding) / 2;
-	float posX = startX;
-
-	for (int y = 0; y != m_tiles.size(); ++y) {
-		for (int x = 0; x != m_tiles[y].size(); ++x) {
-			m_tiles[y][x].setPosition(posX, posY);
-			posX += spriteSize + padding;
-		}
-		posY += spriteSize + padding;
-		posX = startX;
-	}
-
+	onResize();
 	m_updateTiles = false;
 }
 
@@ -215,6 +201,7 @@ void StateDesign::render()
 {
 	for (int y = 0; y != m_tiles.size(); ++y) {
 		for (int x = 0; x != m_tiles[y].size(); ++x) {
+
 			m_shared->m_window->getRenderWindow()->draw(m_tiles[y][x]);
 		}
 	}
@@ -226,6 +213,34 @@ void StateDesign::render()
 	for (auto& text : m_texts) {
 		m_shared->m_window->getRenderWindow()->draw(text.second);
 	}
+}
+
+void StateDesign::onResize()
+{	
+	//Set new positions
+	float spriteSize = m_shared->m_window->getScale().x * 100;
+	if (spriteSize < 40) {
+		spriteSize = 40;
+	}
+	 
+	static const float padding = 2.f;
+
+	float startX = m_shared->m_window->getRenderWindow()->getView().getCenter().x -
+		m_mapSize.x * (spriteSize + padding) / 2;
+	float posY = m_shared->m_window->getRenderWindow()->getView().getCenter().y -
+		m_mapSize.y * (spriteSize + padding) / 2;
+	float posX = startX;
+
+	for (int y = 0; y != m_tiles.size(); ++y) {
+		for (int x = 0; x != m_tiles[y].size(); ++x) {
+			m_tiles[y][x].setScale(spriteSize / 100, spriteSize / 100);
+			m_tiles[y][x].setPosition(posX, posY);
+			posX += spriteSize + padding;
+		}
+		posY += spriteSize + padding;
+		posX = startX;
+	}
+
 }
 
 void StateDesign::save()

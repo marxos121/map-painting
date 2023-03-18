@@ -14,6 +14,7 @@ public:
 	void update() override { };
 	void render() override;
 	void activate() override;
+	void onResize() override;
 
 private:
 	sf::Font m_font;

@@ -38,35 +38,6 @@ sf::RenderWindow* GameWindow::getRenderWindow()
     return &m_window;
 }
 
-void GameWindow::handleEvents()
-{
-    sf::Event event;
-    while (m_window.pollEvent(event))
-    {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            m_window.close();
-            break;
-
-        case sf::Event::KeyPressed:
-            if (event.key.code == sf::Keyboard::F5)
-            {
-                toggleFullscreen();
-            }
-            else if (event.key.code == sf::Keyboard::P)
-            {
-                m_shared->m_stateMgr->togglePause();
-            }
-            else if (event.key.code == sf::Keyboard::Escape)
-            {
-                m_shared->m_stateMgr->swapState(StateType::MainMenu);
-            }
-            break;
-        }
-    }
-}
-
 void GameWindow::toggleFullscreen()
 {
     m_fullscreen = !m_fullscreen;
@@ -77,4 +48,9 @@ void GameWindow::toggleFullscreen()
 bool GameWindow::isOpen() const
 {
     return m_window.isOpen();
+}
+
+sf::Vector2f GameWindow::getScale() const
+{
+    return { m_window.getSize().x / (float)sf::VideoMode::getDesktopMode().width, m_window.getSize().y / (float)sf::VideoMode::getDesktopMode().height };
 }

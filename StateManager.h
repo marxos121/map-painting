@@ -25,6 +25,8 @@ public:
 	void handleInput();
 	void update();
 	void render();
+
+	void onResize();
 	
 	bool hasState(StateType) const;
 	StateType getCurrentState() const;

@@ -16,10 +16,10 @@ public:
 
 	sf::RenderWindow* getRenderWindow();
 
-	void handleEvents();
-
 	void toggleFullscreen();
 	bool isOpen() const;
+	sf::Vector2f getScale() const;
+
 
 private:
 	Shared* m_shared;

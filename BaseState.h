@@ -20,6 +20,7 @@ public:
 	virtual void render() = 0;
 	virtual void activate() { m_isActive = true; }
 	virtual void deactivate() { m_isActive = false; }
+	virtual void onResize() {}
 
 	StateType getType() const { return m_type; }
 	bool getTranscendent() const { return m_bIsTranscendent; }

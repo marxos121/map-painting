@@ -45,7 +45,7 @@ StatePlay::~StatePlay()
 
 StatePlay::StatePlay(Shared* shared)
 	: BaseState(StateType::Play, shared), m_hud(shared), m_nextStep((Step)-1),
-	m_playerSheet(m_shared, "blocksheet", { 50.f, 50.f })
+	m_playerSheet(m_shared, "blocksheet", { 100.f, 100.f })
 {
 	m_gameMap = new Map;
 	m_gameMap->loadMap();
@@ -224,7 +224,7 @@ void StatePlay::update()
 	if (m_player.size() == m_gameMap->getTilesToPaint())
 	{
 		m_playerSheet.setPlay(true);
-		m_playerSheet.setLooping(true);
+		m_playerSheet.setLooping(false);
 
 		if (m_elapsed.asSeconds() < 2.f)
 		{
@@ -235,7 +235,7 @@ void StatePlay::update()
 			return;
 		}
 
-		//bool bFinishedGame = !m_gameMap->loadNext();
+		bool bFinishedGame = !m_gameMap->loadNext();
 
 		resetPlayer();
 		restartClock();
@@ -243,7 +243,7 @@ void StatePlay::update()
 		m_playerSheet.setPlay(false);
 		m_playerSheet.setFrame(0);
 
-		if (!m_gameMap->loadNext())
+		if (bFinishedGame)
 		{
 			m_shared->m_stateMgr->swapState(StateType::GameComplete);
 			return;
@@ -255,18 +255,17 @@ void StatePlay::update()
 
 void StatePlay::render()
 {
-	static const float spriteSize = 50.f;
+	float spriteSize = m_shared->m_window->getScale().y * 100;
 	static const float padding = 2.f;
 
 
-	float startX = m_shared->m_window->getRenderWindow()->getDefaultView().getCenter().x -
+	float startX = m_shared->m_window->getRenderWindow()->getView().getCenter().x -
 		m_gameMap->getMapSize().x * (spriteSize + padding) / 2;
-	float startY = m_shared->m_window->getRenderWindow()->getDefaultView().getCenter().y -
+	float startY = m_shared->m_window->getRenderWindow()->getView().getCenter().y -
 		m_gameMap->getMapSize().y * (spriteSize + padding) / 2;
 
 
 	sf::RectangleShape sprite({ spriteSize, spriteSize });
-	sprite.setPosition(padding, padding);
 
 	for (int x = 0; x != m_gameMap->getMapSize().x; ++x)
 	{
@@ -287,6 +286,7 @@ void StatePlay::render()
 		}
 	}
 
+	m_playerSheet.getSprite().setScale(m_shared->m_window->getScale().y, m_shared->m_window->getScale().y);
 	for (int i = 0; i != m_player.size(); ++i)
 	{
 		m_playerSheet.setPosition({ startX + m_player[i].x * (spriteSize + padding) + padding, startY + m_player[i].y * (spriteSize + padding) + padding });
@@ -300,4 +300,9 @@ void StatePlay::activate()
 {
 	BaseState::activate();
 	restartClock();
+}
+
+void StatePlay::onResize()
+{
+	m_hud.onResize();
 }

@@ -16,6 +16,7 @@ public:
 	void handleInput();
 	void update();
 	void render();
+	void onResize();
 
 private:
 	void save();

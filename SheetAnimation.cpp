@@ -44,7 +44,7 @@ void SheetAnimation::update(float dT)
 
 		if (m_currentFrame >= m_totalFrames)
 		{
-			m_currentFrame = 0;
+			m_currentFrame = m_totalFrames - 1;
 
 			if (!m_loop)
 			{
