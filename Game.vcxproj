@@ -101,6 +101,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Pliki\Programowanie\SFML-2.6.x\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Pliki\Programowanie\SFML-2.6.x\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

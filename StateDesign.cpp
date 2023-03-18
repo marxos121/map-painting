@@ -17,9 +17,9 @@ StateDesign::StateDesign(Shared* shared)
 	m_tiles.push_back(std::vector<sf::Sprite>(1, sf::Sprite(
 		*m_shared->m_texMgr->getTexture("unpainted"))));
 	onResize();
-	m_tiles[0][0].setPosition(m_shared->m_window->getRenderWindow()->getSize().x / 2
+	m_tiles[0][0].setPosition(m_shared->m_window->getSize().x / 2
 		- m_tiles[0][0].getGlobalBounds().width / 2,
-		m_shared->m_window->getRenderWindow()->getSize().y / 2
+		m_shared->m_window->getSize().y / 2
 		- m_tiles[0][0].getGlobalBounds().height / 2);
 
 	m_font.loadFromFile("./Graphics/KOMIKAP.TTF");
@@ -92,8 +92,8 @@ void StateDesign::handleInput()
 
 	released = false;
 
-	auto pos = sf::Mouse::getPosition(*m_shared->m_window->getRenderWindow());
-	pos = sf::Vector2i(m_shared->m_window->getRenderWindow()->mapPixelToCoords(pos));
+	auto pos = sf::Mouse::getPosition(*m_shared->m_window);
+	pos = sf::Vector2i(m_shared->m_window->mapPixelToCoords(pos));
 
 	for (auto& text : m_texts) {
 		if (!(pos.x > text.second.getGlobalBounds().left
@@ -202,16 +202,16 @@ void StateDesign::render()
 	for (int y = 0; y != m_tiles.size(); ++y) {
 		for (int x = 0; x != m_tiles[y].size(); ++x) {
 
-			m_shared->m_window->getRenderWindow()->draw(m_tiles[y][x]);
+			m_shared->m_window->draw(m_tiles[y][x]);
 		}
 	}
 
 	for (auto& fill : m_fills) {
-		m_shared->m_window->getRenderWindow()->draw(fill.second);
+		m_shared->m_window->draw(fill.second);
 	}
 
 	for (auto& text : m_texts) {
-		m_shared->m_window->getRenderWindow()->draw(text.second);
+		m_shared->m_window->draw(text.second);
 	}
 }
 
@@ -225,9 +225,9 @@ void StateDesign::onResize()
 	 
 	static const float padding = 2.f;
 
-	float startX = m_shared->m_window->getRenderWindow()->getView().getCenter().x -
+	float startX = m_shared->m_window->getView().getCenter().x -
 		m_mapSize.x * (spriteSize + padding) / 2;
-	float posY = m_shared->m_window->getRenderWindow()->getView().getCenter().y -
+	float posY = m_shared->m_window->getView().getCenter().y -
 		m_mapSize.y * (spriteSize + padding) / 2;
 	float posX = startX;
 

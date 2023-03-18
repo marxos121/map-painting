@@ -5,29 +5,24 @@
 
 struct Shared;
 
-class GameWindow
+class GameWindow : public sf::RenderWindow
 {
 public:
-	GameWindow(const std::string& l_name, unsigned int l_x, unsigned int l_y, bool l_fullscreen = false);
-	~GameWindow();
-	void initShared(Shared* shr);
-	void create();
-	void destroy();
+	GameWindow(sf::VideoMode  	mode,
+		const sf::String& title,
+		sf::Uint32  	style = sf::Style::Default);
 
-	sf::RenderWindow* getRenderWindow();
+	~GameWindow() = default;
 
 	void toggleFullscreen();
-	bool isOpen() const;
+	void updateWindowedSize();
+
+	bool isFullscreen() const;
+	sf::Vector2u getWindowedSize() const;
 	sf::Vector2f getScale() const;
 
-
 private:
-	Shared* m_shared;
-	sf::RenderWindow m_window;
-
-	std::string m_name;
-	unsigned int m_x;
-	unsigned int m_y;
-	bool m_fullscreen;
+	bool m_bIsFullscreen;
+	sf::Vector2u m_windowedSize;
 };
 

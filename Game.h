@@ -18,5 +18,7 @@ public:
 private:
 	sf::Sprite m_backgroundImage;
 	Shared m_shared;
+
+	void onResize();
 };
 

@@ -18,8 +18,8 @@ GameFinished::GameFinished(Shared* shared)
 	m_text.setOrigin(m_text.getLocalBounds().left + m_text.getLocalBounds().width / 2,
 		m_text.getLocalBounds().top + m_text.getLocalBounds().height / 2);
 
-	auto position = m_shared->m_window->getRenderWindow()->mapPixelToCoords(sf::Vector2i(m_shared->m_window->getRenderWindow()->getSize().x / 2,
-		m_shared->m_window->getRenderWindow()->getSize().y / 2));
+	auto position = m_shared->m_window->mapPixelToCoords(sf::Vector2i(m_shared->m_window->getSize().x / 2,
+		m_shared->m_window->getSize().y / 2));
 	m_text.setPosition(position);
 }
 
@@ -27,7 +27,7 @@ void GameFinished::handleInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
-		m_shared->m_window->destroy();
+		m_shared->m_window->close();
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
@@ -51,7 +51,7 @@ void GameFinished::update()
 
 void GameFinished::render()
 {
-	m_shared->m_window->getRenderWindow()->draw(m_text);
+	m_shared->m_window->draw(m_text);
 }
 
 void GameFinished::activate()

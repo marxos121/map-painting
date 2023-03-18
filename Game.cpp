@@ -11,18 +11,17 @@
 
 Game::Game()
 {
-	m_shared.m_window = new GameWindow("Tiles", 1200, 900);
+	m_shared.m_window = new GameWindow(sf::VideoMode(1200, 900), "Tiles", sf::Style::Fullscreen);
 	m_shared.m_texMgr = new TextureManager;
 	m_shared.m_stateMgr = new StateManager(&m_shared);
 
 	m_shared.m_stateMgr->addState<StateMainMenu>();
 
-	m_shared.m_window->getRenderWindow()->setKeyRepeatEnabled(false);
-	m_shared.m_window->initShared(&m_shared);
+	m_shared.m_window->setKeyRepeatEnabled(false);
 
 	m_backgroundImage.setTexture(*m_shared.m_texMgr->getTexture("background"));
 	m_backgroundImage.setPosition(0, 0);
-	auto windowSize = m_shared.m_window->getRenderWindow()->getSize();
+	auto windowSize = m_shared.m_window->getSize();
 	auto textureSize = m_backgroundImage.getTexture()->getSize();
 	float scaleX = float(windowSize.x) / textureSize.x;
 	float scaleY = float(windowSize.y) / textureSize.y;
@@ -52,33 +51,30 @@ void Game::play()
 void Game::handleInput()
 {
 	sf::Event event;
-	while (m_shared.m_window->getRenderWindow()->pollEvent(event))
+	while (m_shared.m_window->pollEvent(event))
 	{
 		switch (event.type)
 		{
 		case sf::Event::Resized:
-			if (m_shared.m_window->getRenderWindow()->getSize().x < 600)
+			if (m_shared.m_window->getSize().x < 600)
 			{
-				m_shared.m_window->getRenderWindow()->setSize({ 600, m_shared.m_window->getRenderWindow()->getSize().y });
+				m_shared.m_window->setSize({ 600, m_shared.m_window->getSize().y });
 			}
-			if (m_shared.m_window->getRenderWindow()->getSize().y < 420)
+			if (m_shared.m_window->getSize().y < 420)
 			{
-				m_shared.m_window->getRenderWindow()->setSize({ m_shared.m_window->getRenderWindow()->getSize().x, 420 });
-
+				m_shared.m_window->setSize({ m_shared.m_window->getSize().x, 420 });
 			}
-			m_shared.m_window->getRenderWindow()->setView(sf::View(
-				{ 0, 0, (float)m_shared.m_window->getRenderWindow()->getSize().x, (float)m_shared.m_window->getRenderWindow()->getSize().y }));
-			m_backgroundImage.setScale(m_shared.m_window->getScale());
-			m_shared.m_stateMgr->onResize();
+			m_shared.m_window->updateWindowedSize();
 			break;
 		case sf::Event::Closed:
-			m_shared.m_window->destroy();
+			m_shared.m_window->close();
 			break;
 
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::F5)
 			{
 				m_shared.m_window->toggleFullscreen();
+				onResize();
 			}
 			else if (event.key.code == sf::Keyboard::P)
 			{
@@ -101,8 +97,14 @@ void Game::update()
 
 void Game::render()
 {
-	m_shared.m_window->getRenderWindow()->clear();
-	m_shared.m_window->getRenderWindow()->draw(m_backgroundImage);
+	m_shared.m_window->clear();
+	m_shared.m_window->draw(m_backgroundImage);
 	m_shared.m_stateMgr->render();
-	m_shared.m_window->getRenderWindow()->display();
+	m_shared.m_window->display();
+}
+
+void Game::onResize()
+{
+	m_backgroundImage.setScale(m_shared.m_window->getScale());
+	m_shared.m_stateMgr->onResize();
 }

@@ -259,9 +259,9 @@ void StatePlay::render()
 	static const float padding = 2.f;
 
 
-	float startX = m_shared->m_window->getRenderWindow()->getView().getCenter().x -
+	float startX = m_shared->m_window->getView().getCenter().x -
 		m_gameMap->getMapSize().x * (spriteSize + padding) / 2;
-	float startY = m_shared->m_window->getRenderWindow()->getView().getCenter().y -
+	float startY = m_shared->m_window->getView().getCenter().y -
 		m_gameMap->getMapSize().y * (spriteSize + padding) / 2;
 
 
@@ -281,7 +281,7 @@ void StatePlay::render()
 				sprite.setTexture(m_shared->m_texMgr->getTexture("unpainted"));
 			}
 
-			m_shared->m_window->getRenderWindow()->draw(sprite);
+			m_shared->m_window->draw(sprite);
 			sprite.move({ 0.f, spriteSize + padding });
 		}
 	}
@@ -290,7 +290,7 @@ void StatePlay::render()
 	for (int i = 0; i != m_player.size(); ++i)
 	{
 		m_playerSheet.setPosition({ startX + m_player[i].x * (spriteSize + padding) + padding, startY + m_player[i].y * (spriteSize + padding) + padding });
-		m_playerSheet.draw(*m_shared->m_window->getRenderWindow());
+		m_playerSheet.draw(*m_shared->m_window);
 	}
 
 	m_hud.draw();

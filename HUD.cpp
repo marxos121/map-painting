@@ -34,14 +34,14 @@ void HUD::update(float dT, int playerSize)
 
 void HUD::draw()
 {
-	m_shared->m_window->getRenderWindow()->draw(m_time);
-	m_shared->m_window->getRenderWindow()->draw(m_blocks);
+	m_shared->m_window->draw(m_time);
+	m_shared->m_window->draw(m_blocks);
 	
 }
 
 void HUD::onResize()
 {
-	if (m_shared->m_window->getRenderWindow()->getSize().x >= 600) {
+	if (m_shared->m_window->getSize().x >= 600) {
 		m_time.setCharacterSize(32);
 		m_blocks.setCharacterSize(32);
 	}
@@ -50,5 +50,5 @@ void HUD::onResize()
 		m_blocks.setCharacterSize(20);
 	}
 	m_time.setOrigin(m_time.getLocalBounds().width, 0);
-	m_time.setPosition(m_shared->m_window->getRenderWindow()->getSize().x - 30, 20);
+	m_time.setPosition(m_shared->m_window->getSize().x - 30, 20);
 }

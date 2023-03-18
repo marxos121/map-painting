@@ -25,20 +25,20 @@ void StatePause::update()
 
 void StatePause::render()
 {
-	m_shared->m_window->getRenderWindow()->draw(m_fill);
-	m_shared->m_window->getRenderWindow()->draw(text);
+	m_shared->m_window->draw(m_fill);
+	m_shared->m_window->draw(text);
 }
 
 void StatePause::onResize()
 {
-	m_fill.setSize(sf::Vector2f(m_shared->m_window->getRenderWindow()->getSize().x,
-		m_shared->m_window->getRenderWindow()->getSize().y));
-	if (m_shared->m_window->getRenderWindow()->getSize().x >= 600)
+	m_fill.setSize(sf::Vector2f(m_shared->m_window->getSize().x,
+		m_shared->m_window->getSize().y));
+	if (m_shared->m_window->getSize().x >= 600)
 		text.setCharacterSize(32);
 	else
 		text.setCharacterSize(20);
 	text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2,
 		text.getLocalBounds().top + text.getLocalBounds().height / 2);
-	auto position = m_shared->m_window->getRenderWindow()->getView().getCenter();
+	auto position = m_shared->m_window->getView().getCenter();
 	text.setPosition(position);
 }

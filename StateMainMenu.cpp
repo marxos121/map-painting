@@ -49,8 +49,8 @@ void StateMainMenu::handleInput()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
-		auto pos = sf::Mouse::getPosition(*m_shared->m_window->getRenderWindow());
-		pos = sf::Vector2i(m_shared->m_window->getRenderWindow()->mapPixelToCoords(pos));
+		auto pos = sf::Mouse::getPosition(*m_shared->m_window);
+		pos = sf::Vector2i(m_shared->m_window->mapPixelToCoords(pos));
 
 		if (pos.x > m_rectangles[0].getGlobalBounds().left
 			&& pos.x < m_rectangles[0].getGlobalBounds().left + m_rectangles[0].getGlobalBounds().width
@@ -71,19 +71,19 @@ void StateMainMenu::handleInput()
 			&& pos.y > m_rectangles[2].getGlobalBounds().top
 			&& pos.y < m_rectangles[2].getGlobalBounds().top + m_rectangles[2].getGlobalBounds().height)
 		{
-			m_shared->m_window->destroy();
+			m_shared->m_window->close();
 		}
 	}
 }
 
 void StateMainMenu::render()
 {
-	m_shared->m_window->getRenderWindow()->draw(m_rectangles[0]);
-	m_shared->m_window->getRenderWindow()->draw(m_rectangles[1]);
-	m_shared->m_window->getRenderWindow()->draw(m_rectangles[2]);
-	m_shared->m_window->getRenderWindow()->draw(m_startGameText);
-	m_shared->m_window->getRenderWindow()->draw(m_designText);
-	m_shared->m_window->getRenderWindow()->draw(m_exitText);
+	m_shared->m_window->draw(m_rectangles[0]);
+	m_shared->m_window->draw(m_rectangles[1]);
+	m_shared->m_window->draw(m_rectangles[2]);
+	m_shared->m_window->draw(m_startGameText);
+	m_shared->m_window->draw(m_designText);
+	m_shared->m_window->draw(m_exitText);
 }
 
 void StateMainMenu::activate()
@@ -98,7 +98,7 @@ void StateMainMenu::activate()
 
 void StateMainMenu::onResize()
 {
-	auto windowSize = m_shared->m_window->getRenderWindow()->getSize();
+	auto windowSize = m_shared->m_window->getSize();
 	auto startBounds = m_startGameText.getLocalBounds();
 
 	m_startGameText.setPosition(windowSize.x / 2, windowSize.y / 2 - startBounds.height);
