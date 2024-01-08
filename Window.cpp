@@ -1,6 +1,7 @@
 #include "Window.h"
 
 GameWindow::GameWindow(sf::VideoMode mode, const sf::String& title, sf::Uint32 style)
+    : m_bIsFullscreen(false)
 {
     m_windowedSize = { mode.width, mode.height };
     if (style == sf::Style::Fullscreen)
@@ -32,6 +33,7 @@ void GameWindow::updateWindowedSize()
     if (!m_bIsFullscreen)
     {
         m_windowedSize = getSize();
+        setView(sf::View({ 0.f, 0.f, (float)getSize().x, (float)getSize().y }));
     }
 }
 

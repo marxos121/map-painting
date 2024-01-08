@@ -10,13 +10,13 @@
 
 #include <fstream>
 
-
 class GameFinished;
 
 StatePlay::StatePlay(Shared* shared)
 	: BaseState(StateType::Play, shared), m_hud(shared), m_nextStep((Step)-1),
 	m_playerSheet(m_shared, "blocksheet", { 100.f, 100.f })
 {
+	onResize();
 	std::string mapToLoad = "map1.txt";
 	std::ifstream is("state.txt");
 	if (is.is_open()) {
@@ -27,7 +27,6 @@ StatePlay::StatePlay(Shared* shared)
 	m_shared->m_gameMap = m_gameMap;
 
 	resetPlayer();
-
 }
 
 StatePlay::~StatePlay()
@@ -266,7 +265,7 @@ void StatePlay::update()
 
 void StatePlay::render()
 {
-	float spriteSize = m_shared->m_window->getScale().y * 100;
+	float spriteSize = m_shared->m_window->getScale().x * 100;
 	static const float padding = 2.f;
 
 
@@ -297,7 +296,6 @@ void StatePlay::render()
 		}
 	}
 
-	m_playerSheet.getSprite().setScale(m_shared->m_window->getScale().y, m_shared->m_window->getScale().y);
 	for (int i = 0; i != m_player.size(); ++i)
 	{
 		m_playerSheet.setPosition({ startX + m_player[i].x * (spriteSize + padding) + padding, startY + m_player[i].y * (spriteSize + padding) + padding });
@@ -316,6 +314,7 @@ void StatePlay::activate()
 void StatePlay::onResize()
 {
 	m_hud.onResize();
+	m_playerSheet.getSprite().setScale(m_shared->m_window->getScale().x, m_shared->m_window->getScale().x);
 }
 
 void StatePlay::save()

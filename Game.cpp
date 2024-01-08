@@ -7,11 +7,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include <iostream>
-
 Game::Game()
 {
-	m_shared.m_window = new GameWindow(sf::VideoMode(1200, 900), "Tiles", sf::Style::Fullscreen);
+	m_shared.m_window = new GameWindow(sf::VideoMode(800, 600), "Tiles", sf::Style::Fullscreen);
 	m_shared.m_window->setKeyRepeatEnabled(false);
 
 	m_shared.m_texMgr = new TextureManager;
@@ -50,15 +48,16 @@ void Game::handleInput()
 		switch (event.type)
 		{
 		case sf::Event::Resized:
-			if (m_shared.m_window->getSize().x < 600)
+			if (event.size.width < 600)
 			{
 				m_shared.m_window->setSize({ 600, m_shared.m_window->getSize().y });
 			}
-			if (m_shared.m_window->getSize().y < 420)
+			if (event.size.height < 420)
 			{
 				m_shared.m_window->setSize({ m_shared.m_window->getSize().x, 420 });
 			}
 			m_shared.m_window->updateWindowedSize();
+			onResize();
 			break;
 		case sf::Event::Closed:
 			m_shared.m_window->close();
